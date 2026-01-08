@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric North | Mystic Fantasy Author</title>
+    
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 L15 60 L50 95 L50 5 Z" fill="%23222222"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="%23ff500a"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>'>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- ЦВЕТА --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #222222;
+            --nav-bg: #ffffff;
+            --accent-color: #ff500a;
+            --accent-hover: #e04508;
+            --border-color: #eeeeee;
+            --secondary-text: #666666;
+            --hero-overlay: rgba(255,255,255,0.85);
+            --modal-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: #f9f9f9;
+            --footer-bg: #f5f5f5;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --nav-bg: #1a1a1a;
+            --accent-color: #ff6b35; 
+            --accent-hover: #ff8c61;
+            --border-color: #333333;
+            --secondary-text: #aaaaaa;
+            --hero-overlay: rgba(0,0,0,0.8);
+            --modal-bg: rgba(18, 18, 18, 0.95);
+            --card-bg: #1e1e1e;
+            --footer-bg: #1f1f1f;
+        }
+        
+        [hidden] { display: none !important; }
+
+        * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Merriweather', serif; }
+        a { text-decoration: none; color: var(--text-color); }
+
+        /* HEADER */
+        header { background-color: var(--nav-bg); border-bottom: 1px solid var(--border-color); padding: 15px 40px; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo-link { display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 45px; height: 45px; transition: transform 0.3s ease; }
+        .logo-text { font-family: 'Merriweather', serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1; }
+        .logo-text span { color: var(--accent-color); }
+        .logo-link:hover .logo-svg { transform: scale(1.05); }
+        [data-theme="dark"] .logo-svg { filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3)); }
+        
+        .main-menu { display: flex; gap: 30px; }
+        .main-menu a { font-weight: 600; font-size: 1rem; position: relative; }
+        .main-menu a:hover, .main-menu a.active { color: var(--accent-color); }
+        
+        .actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-color); font-size: 1.1rem; }
+        .icon-btn:hover { color: var(--accent-color); }
+        .btn-subscribe { background-color: var(--accent-color); color: white; padding: 8px 20px; border-radius: 20px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
+        .btn-subscribe:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
+        .lang-switch { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+
+        /* MODALS */
+        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); z-index: 2000; display: flex; justify-content: center; align-items: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
+        .search-modal.active { opacity: 1; pointer-events: all; }
+        .close-search { position: absolute; top: 30px; right: 40px; font-size: 2rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
+        .search-container { width: 100%; max-width: 800px; padding: 0 20px; text-align: center; }
+        .search-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--secondary-text); font-family: 'Merriweather', serif; font-size: 2rem; color: var(--text-color); padding: 10px 0; outline: none; }
+        .search-input::placeholder { color: var(--secondary-text); opacity: 0.5; font-style: italic; }
+        .search-hint { margin-top: 15px; color: var(--secondary-text); font-size: 0.9rem; }
+
+        .subscribe-form { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
+        .subscribe-input { padding: 15px; font-size: 1.2rem; border: 1px solid var(--secondary-text); background: transparent; color: var(--text-color); border-radius: 4px; }
+        .subscribe-submit { padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
+        .subscribe-submit:hover { background: var(--accent-hover); }
+
+        /* MAIN */
+        main { flex: 1; display: flex; flex-direction: column; position: relative; padding: 0; }
+
+        .hero-section {
+            height: 60vh; 
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; position: relative;
+        }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--hero-overlay); }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 0 20px; }
+        .hero-title-large { font-size: 4rem; margin: 0; color: var(--text-color); letter-spacing: -1px; font-weight: 700; line-height: 1.1; }
+
+        /* CARDS (4 в ряд) */
+        .featured-cards-container {
+            max-width: 1200px; margin: -60px auto 60px; padding: 0 20px;
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 30px;
+            position: relative; z-index: 2;
+        }
+        .link-card {
+            background-color: var(--card-bg); padding: 50px 30px; text-align: center;
+            border: 1px solid var(--border-color); border-radius: 16px; 
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none;
+        }
+        .link-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); border-color: var(--accent-color); }
+        .link-card i { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px; }
+        .link-card h3 { margin: 0; font-size: 1.4rem; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; font-family: 'Merriweather', serif; }
+        .link-card p { font-size: 1rem; color: var(--secondary-text); margin-top: 10px; font-family: 'Source Sans Pro', sans-serif; }
+
+        /* --- PROMO BLOCKS (СТАТИЧНЫЕ, СЕРЫЙ ФОН) --- */
+        .promo-section {
+            max-width: 1200px; 
+            margin: 80px auto; 
+            background-color: var(--footer-bg); 
+            border-radius: 24px;
+            padding: 40px; 
+            display: flex; 
+            align-items: center; 
+            gap: 60px; 
+        }
+        .promo-section.reverse { flex-direction: row-reverse; }
+        
+        .promo-image-wrapper { 
+            flex: 1; 
+            border-radius: 16px; 
+            overflow: hidden; 
+        }
+        
+        .promo-image { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+        }
+        
+        .promo-content { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+        .promo-title { font-family: 'Merriweather', serif; font-size: 2.2rem; margin: 0 0 20px 0; color: var(--text-color); line-height: 1.2; }
+        .promo-text { font-size: 1.1rem; color: var(--secondary-text); margin-bottom: 30px; line-height: 1.6; }
+        .btn-primary { background-color: var(--accent-color); color: white; padding: 12px 35px; border-radius: 30px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: background 0.3s, transform 0.2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255, 80, 10, 0.3); }
+
+        /* FOOTER */
+        footer { background-color: var(--footer-bg); padding: 40px 0 0 0; margin-top: auto; border-top: 1px solid var(--border-color); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 0 20px 40px 20px; }
+        .footer-socials { display: flex; gap: 15px; }
+        .footer-socials a { font-size: 1.2rem; color: var(--secondary-text); transition: color 0.3s; }
+        .footer-socials a:hover { color: var(--accent-color); }
+        .copyright { width: 100%; background-color: var(--accent-color); padding: 20px 0; text-align: center; margin-top: 0; }
+        .copyright p { margin: 0; font-size: 0.85rem; color: #ffffff; }
+
+        @media (max-width: 900px) { .promo-section, .promo-section.reverse { flex-direction: column; gap: 30px; margin: 60px auto; padding: 30px; } }
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            .footer-container { flex-direction: column; gap: 20px; text-align: center; }
+            .hero-title-large { font-size: 2.5rem; }
+            .featured-cards-container { grid-template-columns: 1fr; margin-top: 0; padding-top: 20px; }
+        }
+    </style>
+
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+
+</head>
+<body>
+
+    <div id="searchModal" class="search-modal">
+        <button class="close-search" onclick="toggleSearch()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Введите название книги или темы..." autocomplete="off">
+            <p class="search-hint" data-translate="search_hint">Нажмите Enter для поиска</p>
+        </div>
+    </div>
+
+    <div id="subscribeModal" class="search-modal">
+        <button class="close-search" onclick="toggleSubscribe()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="search-container">
+            <h2 style="font-family: 'Merriweather'; margin-bottom: 30px;" data-translate="join_news">Новости и обновления</h2>
+            <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!'); toggleSubscribe();">
+                <input type="email" class="subscribe-input" placeholder="Email" required>
+                <button type="submit" class="subscribe-submit" data-translate="subscribe_btn">Подписаться</button>
+            </form>
+            <p class="search-hint" data-translate="spam_note">Никакого спама, только магия.</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div class="logo-text">ERIC <span>NORTH</span></div>
+            </a>
+
+            <nav class="main-menu">
+                <a href="index.html" class="active" data-translate="home">Главная</a>
+                <a href="blog.html" data-translate="blog">Блог</a>
+                <a href="books.html" data-translate="books">Книги</a>
+                <a href="notes.html" data-translate="notes">Заметки</a>
+            </nav>
+
+            <div class="actions">
+                <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <span class="lang-switch icon-btn" onclick="toggleLanguage()">EN</span>
+                <button class="icon-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
+                <button class="btn-subscribe" onclick="toggleSubscribe()" data-translate="subscribe">Подписаться</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title-large">
+                    <span class="lang-ru">Архитектура <span style="color: var(--accent-color);">иных миров</span></span>
+                    <span class="lang-en" hidden>Architecture <span style="color: var(--accent-color);">of Other Worlds</span></span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="featured-cards-container">
+            <a href="blog.html" class="link-card">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <h3 data-translate="blog_card">Истории</h3>
+                <p data-translate="stories_desc">Короткая проза и черновики</p>
+            </a>
+            <a href="books.html" class="link-card">
+                <i class="fa-solid fa-book-open"></i>
+                <h3 data-translate="books">Книги</h3>
+                <p data-translate="books_desc">Мои опубликованные романы</p>
+            </a>
+            <a href="notes.html" class="link-card">
+                <i class="fa-regular fa-note-sticky"></i>
+                <h3 data-translate="notes">Заметки</h3>
+                <p data-translate="notes_desc">Мысли и объявления</p>
+            </a>
+            <a href="projects.html" class="link-card">
+                <i class="fa-solid fa-diagram-project"></i>
+                <h3 data-translate="projects">Проекты</h3>
+                <p data-translate="projects_desc">Эксперименты и идеи</p>
+            </a>
+        </div>
+
+        <div class="promo-section">
+            <div class="promo-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Book Cover" class="promo-image">
+            </div>
+            <div class="promo-content">
+                <div class="lang-ru">
+                    <h2 class="promo-title">Тайны Эфира: Новая глава</h2>
+                    <p class="promo-text">Погрузитесь в неизведанные уголки вселенной, где магия переплетается с технологиями древних цивилизаций.</p>
+                    <a href="books.html" class="btn-primary">Читать фрагмент <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="lang-en" hidden>
+                    <h2 class="promo-title">Secrets of Aether: New Chapter</h2>
+                    <p class="promo-text">Dive into the unknown corners of the universe where magic intertwines with ancient technologies.</p>
+                    <a href="books.html" class="btn-primary">Read Sample <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="promo-section reverse">
+            <div class="promo-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Author" class="promo-image">
+            </div>
+            <div class="promo-content">
+                <div class="lang-ru">
+                    <h2 class="promo-title">О пути Писателя</h2>
+                    <p class="promo-text">Каждая история начинается с маленькой идеи. В моем блоге я делюсь секретами мастерства.</p>
+                    <a href="blog.html" class="btn-primary">Перейти в блог</a>
+                </div>
+                <div class="lang-en" hidden>
+                    <h2 class="promo-title">About the Author's Path</h2>
+                    <p class="promo-text">Every story begins with a small idea. In my blog, I share the secrets of the craft.</p>
+                    <a href="blog.html" class="btn-primary">Go to Blog</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <a href="index.html" class="logo-link">
+                <svg class="logo-svg" style="width: 40px; height: 40px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div class="logo-text" style="font-size: 1.2rem;">ERIC <span>NORTH</span></div>
+            </a>
+
+            <nav class="main-menu">
+                <a href="index.html" class="active" data-translate="home">Главная</a>
+                <a href="blog.html" data-translate="blog">Блог</a>
+                <a href="books.html" data-translate="books">Книги</a>
+                <a href="notes.html" data-translate="notes">Заметки</a>
+            </nav>
+
+            <div class="footer-socials">
+                <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <p>&copy; 2026 Eric North. <span data-translate="rights">Все права защищены.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="posts.js"></script>
+    <script src="books.js"></script>
+    <script src="projects.js"></script>
+    <script src="notes.js"></script>
+    
+    <script src="search.js"></script>
+
+    <script>
+        const translations = {
+            ru: {
+                home: "Главная", blog: "Блог", books: "Книги", notes: "Заметки", subscribe: "Подписаться",
+                search_placeholder: "Введите название книги или темы...", search_hint: "Нажмите Enter для поиска",
+                rights: "Все права защищены.",
+                
+                join_news: "Новости и обновления", 
+                
+                subscribe_btn: "Подписаться", spam_note: "Никакого спама, только магия.",
+                blog_card: "Истории", stories_desc: "Короткая проза и черновики", 
+                books_desc: "Мои опубликованные романы", notes_desc: "Мысли и объявления", 
+                projects: "Проекты", projects_desc: "Эксперименты и идеи",
+                
+                hero_part1: "Архитектура", hero_part2: "иных миров"
+            },
+            en: {
+                home: "Home", blog: "Blog", books: "Books", notes: "Notes", subscribe: "Subscribe",
+                search_placeholder: "Type book title or topic...", search_hint: "Press Enter to search",
+                rights: "All rights reserved.", 
+                
+                join_news: "News & Updates", 
+                
+                subscribe_btn: "Subscribe", spam_note: "No spam, just magic.",
+                blog_card: "Stories", stories_desc: "Short fiction and drafts", 
+                books_desc: "My published novels", notes_desc: "Thoughts and announcements", 
+                projects: "Projects", projects_desc: "Experiments and ideas",
+                
+                hero_part1: "Architecture", hero_part2: "of Other Worlds"
+            }
+        };
+
+        // --- УПРАВЛЕНИЕ ПАМЯТЬЮ (Local Storage) ---
+        let currentLang = localStorage.getItem('lang') || 'ru';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang); 
+            document.querySelector('.lang-switch').textContent = lang === 'ru' ? 'EN' : 'RU';
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            document.getElementById('searchInput').placeholder = translations[lang]['search_placeholder'];
+
+            const ruBlocks = document.querySelectorAll('.lang-ru');
+            const enBlocks = document.querySelectorAll('.lang-en');
+            if (lang === 'ru') {
+                ruBlocks.forEach(el => el.hidden = false);
+                enBlocks.forEach(el => el.hidden = true);
+            } else {
+                ruBlocks.forEach(el => el.hidden = true);
+                enBlocks.forEach(el => el.hidden = false);
+            }
+        }
+        setLanguage(currentLang);
+
+        function toggleLanguage() {
+            setLanguage(currentLang === 'ru' ? 'en' : 'ru');
+        }
+
+        // Обновляем иконку темы после загрузки
+        document.addEventListener('DOMContentLoaded', () => {
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if(icon) icon.className = currentTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        });
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            icon.className = newTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        function toggleSearch() {
+            const modal = document.getElementById('searchModal');
+            const input = document.getElementById('searchInput');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) setTimeout(() => input.focus(), 100);
+        }
+
+        function toggleSubscribe() {
+            document.getElementById('subscribeModal').classList.toggle('active');
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                document.getElementById('searchModal').classList.remove('active');
+                document.getElementById('subscribeModal').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
