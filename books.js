@@ -1,4 +1,4 @@
-const booksDB = [
+const booksDB_default = [
     {
         cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
         meta_ru: 'Фэнтези • 2024', meta_en: 'Fantasy • 2024',
@@ -24,3 +24,5 @@ const booksDB = [
         link_buy: '#', link_read: '#'
     }
 ];
+
+const booksDB = (window.CMS_DATA && window.CMS_DATA.books) ? window.CMS_DATA.books : booksDB_default;

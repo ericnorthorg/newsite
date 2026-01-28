@@ -1,4 +1,4 @@
-const projectsDB = [
+const projectsDB_default = [
     {
         statusClass: 'status-active', // Класс цвета (оранжевый)
         status_ru: 'В работе', status_en: 'In Progress',
@@ -27,3 +27,5 @@ const projectsDB = [
         progress: 90
     }
 ];
+
+const projectsDB = (window.CMS_DATA && window.CMS_DATA.projects) ? window.CMS_DATA.projects : projectsDB_default;

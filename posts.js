@@ -1,4 +1,4 @@
-const postsDB = {
+const postsDB_default = {
     // ID поста: 'void' (совпадает с ссылкой ?id=void)
     'void': {
         image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
@@ -74,3 +74,5 @@ const postsDB = {
         body_en: `<p>Chapter 1 text...</p>`
     }
 };
+
+const postsDB = (window.CMS_DATA && window.CMS_DATA.posts) ? window.CMS_DATA.posts : postsDB_default;

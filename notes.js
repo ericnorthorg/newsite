@@ -1,4 +1,4 @@
-const notesDB = [
+const notesDB_default = [
     {
         type: 'idea', // Тип: 'idea' (текст), 'observation' (картинка), 'quote' (цитата)
         category: 'ideas', // Для фильтра
@@ -24,3 +24,5 @@ const notesDB = [
         author: 'Eric North'
     }
 ];
+
+const notesDB = (window.CMS_DATA && window.CMS_DATA.notes) ? window.CMS_DATA.notes : notesDB_default;
