@@ -1,68 +1,80 @@
-/**
- * CMS Client for Eric North Website
- * Fetches content from Google Sheets via Apps Script Web App
- */
-
-// !!! IMPORTANT: PASTE YOUR WEB APP URL HERE !!!
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypZfRwxVCDztLWoW3x6riR4Cn1gqI-tHsLcbi2MOclTjJBmhTicaq403RzN2aqErA/exec';
-
-const CMS = {
-    // Keys for localStorage
-    STORAGE_KEY: 'eric_north_site_content',
-    LAST_FETCH_KEY: 'eric_north_last_fetch',
-
-    // Cache duration (e.g., 1 hour), can be 0 for always-check
-    CACHE_DURATION: 1000 * 60 * 60,
-
-    data: null,
-
-    init: function () {
-        // 1. Try to load from local storage immediately
-        this.loadFromStorage();
-
-        // 2. Expose to global window object so other scripts can find it
-        window.CMS_DATA = this.data;
-
-        // 3. Fetch updates in background
-        this.fetchUpdates();
-    },
-
-    loadFromStorage: function () {
-        try {
-            const raw = localStorage.getItem(this.STORAGE_KEY);
-            if (raw) {
-                this.data = JSON.parse(raw);
-                console.log('CMS: Loaded content from cache');
-            } else {
-                console.log('CMS: No cache found');
-            }
-        } catch (e) {
-            console.error('CMS: Error loading cache', e);
-        }
-    },
-
-    fetchUpdates: function () {
-        if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
-            console.warn('CMS: Web App URL not configured yet.');
-            return;
-        }
-
-        console.log('CMS: Fetching updates...');
-        fetch(GOOGLE_SCRIPT_URL)
-            .then(response => response.json())
-            .then(newData => {
-                // Check if data actually changed could be done here, 
-                // but for now we just save it.
-                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(newData));
-                localStorage.setItem(this.LAST_FETCH_KEY, Date.now());
-
-                // Optional: Trigger a reload or event if data changed significantly?
-                // For now, next page load will see new data.
-                console.log('CMS: Data updated. Refresh to see changes.');
-            })
-            .catch(err => console.error('CMS: Fetch failed', err));
-    }
+/* --- cms.js: Связь с Google Таблицами --- */
+const SHEET_URLS = {
+    // Ссылка на вкладку "Posts" (которую вы дали):
+    posts: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQveSf6jrPxdd_Bo7nPkiIjztRBgy0nk3ENJC8kfVkrxIYbc2hs_vzfzonVI_AgOJk2gYgfXrU9RaL4/pub?gid=0&single=true&output=csv",
+    
+    // Сюда вставьте ссылки для других вкладок (Файл -> Поделиться -> Опубликовать -> CSV):
+    books: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQveSf6jrPxdd_Bo7nPkiIjztRBgy0nk3ENJC8kfVkrxIYbc2hs_vzfzonVI_AgOJk2gYgfXrU9RaL4/pub?gid=1757696213&single=true&output=csv",     
+    projects: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQveSf6jrPxdd_Bo7nPkiIjztRBgy0nk3ENJC8kfVkrxIYbc2hs_vzfzonVI_AgOJk2gYgfXrU9RaL4/pub?gid=423467618&single=true&output=csv",  
+    notes: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQveSf6jrPxdd_Bo7nPkiIjztRBgy0nk3ENJC8kfVkrxIYbc2hs_vzfzonVI_AgOJk2gYgfXrU9RaL4/pub?gid=1777395998&single=true&output=csv"      
 };
 
-// Initialize immediately so it runs before other scripts
-CMS.init();
+// Функция загрузки таблицы
+function loadSheet(url) {
+    return new Promise((resolve) => {
+        if (!url) {
+            console.log("Ссылка не указана, используем пустой список.");
+            resolve([]); 
+            return;
+        }
+        Papa.parse(url, {
+            download: true,
+            header: true, // Первая строка таблицы станет заголовками (id, title_ru...)
+            skipEmptyLines: true,
+            complete: (results) => resolve(results.data),
+            error: (err) => { console.error("Ошибка загрузки:", err); resolve([]); }
+        });
+    });
+}
+
+// Главная функция старта
+async function initCMS() {
+    console.log("⏳ CMS: Загрузка данных из Google...");
+    
+    const [posts, books, projects, notes] = await Promise.all([
+        loadSheet(SHEET_URLS.posts),
+        loadSheet(SHEET_URLS.books),
+        loadSheet(SHEET_URLS.projects),
+        loadSheet(SHEET_URLS.notes)
+    ]);
+
+    // 1. Обрабатываем ПОСТЫ (превращаем в объект window.postsDB)
+    window.postsDB = {};
+    if (posts.length > 0) {
+        posts.forEach(post => {
+            if(post.id) {
+                // Исправляем булевы значения (Excel возвращает строки "TRUE")
+                post.hidden = (post.hidden === 'TRUE' || post.hidden === 'true' || post.hidden === true);
+                window.postsDB[post.id] = post;
+            }
+        });
+        console.log(`✅ CMS: Загружено ${posts.length} постов.`);
+    }
+
+    // 2. Обрабатываем КНИГИ
+    if (books.length > 0) {
+        window.booksDB = books;
+        console.log(`✅ CMS: Загружено ${books.length} книг.`);
+    }
+
+    // 3. Обрабатываем ПРОЕКТЫ
+    if (projects.length > 0) {
+        window.projectsDB = projects.map(p => ({
+            ...p,
+            progress: parseInt(p.progress) || 0 // Убеждаемся, что прогресс — число
+        }));
+        console.log(`✅ CMS: Загружено ${projects.length} проектов.`);
+    }
+
+    // 4. Обрабатываем ЗАМЕТКИ
+    if (notes.length > 0) {
+        window.notesDB = notes;
+        console.log(`✅ CMS: Загружено ${notes.length} заметок.`);
+    }
+
+    // Сообщаем сайту, что данные готовы
+    document.dispatchEvent(new Event('db-ready'));
+}
+
+// Запускаем
+initCMS();

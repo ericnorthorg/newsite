@@ -6,20 +6,17 @@
     <title>Blog Post | Eric North</title>
     
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 L15 60 L50 95 L50 5 Z" fill="%23222222"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="%23ff500a"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>'>
-    
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- 1. КОНСТАНТЫ --- */
+        /* ... СТИЛИ ТЕ ЖЕ ... */
         :root { --bg-color: #ffffff; --text-color: #222222; --nav-bg: #ffffff; --accent-color: #ff500a; --accent-hover: #e04508; --border-color: #eeeeee; --secondary-text: #666666; --modal-bg: rgba(255, 255, 255, 0.95); --card-bg: #f9f9f9; --footer-bg: #f5f5f5; }
         [data-theme="dark"] { --bg-color: #121212; --text-color: #e0e0e0; --nav-bg: #1a1a1a; --accent-color: #ff6b35; --accent-hover: #ff8c61; --border-color: #333333; --secondary-text: #aaaaaa; --modal-bg: rgba(18, 18, 18, 0.95); --card-bg: #1e1e1e; --footer-bg: #1f1f1f; }
         [hidden] { display: none !important; }
         * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
         body { margin: 0; padding: 0; font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
         a { text-decoration: none; color: var(--text-color); }
-
-        /* --- 2. ШАПКА --- */
         header { background-color: var(--nav-bg); border-bottom: 1px solid var(--border-color); padding: 15px 40px; position: sticky; top: 0; z-index: 10000; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
         .logo-link { display: flex; align-items: center; gap: 12px; }
@@ -37,8 +34,6 @@
         .btn-subscribe { background-color: var(--accent-color); color: white; padding: 8px 20px; border-radius: 20px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
         .btn-subscribe:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
         .lang-switch { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
-
-        /* МОДАЛКИ */
         .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); z-index: 20000; display: flex; justify-content: center; align-items: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
         .search-modal.active { opacity: 1; pointer-events: all; }
         .close-search { position: absolute; top: 30px; right: 40px; font-size: 2rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
@@ -50,8 +45,6 @@
         .subscribe-input { padding: 15px; font-size: 1.2rem; border: 1px solid var(--secondary-text); background: transparent; color: var(--text-color); border-radius: 4px; }
         .subscribe-submit { padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
         .subscribe-submit:hover { background: var(--accent-hover); }
-
-        /* СТИЛИ ПОСТА */
         main { flex: 1; display: flex; flex-direction: column; position: static; z-index: auto; }
         .article-container { max-width: 740px; margin: 60px auto; padding: 0 20px; width: 100%; position: static; }
         .article-header { text-align: center; margin-bottom: 40px; position: static; }
@@ -63,13 +56,19 @@
         .article-content p { margin-bottom: 30px; }
         .article-content h2 { font-size: 2rem; margin-top: 60px; margin-bottom: 20px; font-weight: 700; }
         .article-content blockquote { border-left: 4px solid var(--accent-color); padding-left: 20px; margin: 40px 0; font-style: italic; color: var(--secondary-text); font-size: 1.4rem; }
-
         .share-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border-color); text-align: center; }
         .share-title { font-family: 'Source Sans Pro', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--secondary-text); margin-bottom: 20px; }
         .share-buttons { display: flex; justify-content: center; gap: 15px; }
-        .share-btn { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-color); font-size: 1.2rem; transition: all 0.3s; }
+        .share-btn { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-color); font-size: 1.2rem; transition: all 0.3s; cursor: pointer; text-decoration: none; }
         .share-btn:hover { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-3px); }
-
+        .feedback-section { margin-top: 60px; border-top: 1px solid var(--border-color); padding-top: 40px; }
+        .feedback-title { font-family: 'Merriweather', serif; font-size: 1.8rem; margin-bottom: 20px; }
+        .feedback-form { display: flex; flex-direction: column; gap: 15px; background-color: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .feedback-input, .feedback-textarea { padding: 15px; border: 1px solid var(--border-color); border-radius: 4px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Source Sans Pro', sans-serif; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+        .feedback-input:focus, .feedback-textarea:focus { border-color: var(--accent-color); }
+        .feedback-textarea { min-height: 120px; resize: vertical; }
+        .feedback-submit { align-self: flex-start; background-color: var(--accent-color); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+        .feedback-submit:hover { background-color: var(--accent-hover); }
         .recommended-section { background-color: var(--footer-bg); padding: 80px 20px; margin-top: 0; }
         .recommended-container { max-width: 1200px; margin: 0 auto; }
         .recommended-title { font-family: 'Merriweather', serif; font-size: 2rem; margin-bottom: 40px; text-align: center; }
@@ -80,8 +79,6 @@
         .card-content { padding: 25px; }
         .card-meta { font-size: 0.8rem; color: var(--accent-color); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
         .card-title { font-family: 'Merriweather', serif; font-size: 1.2rem; margin: 0; line-height: 1.4; }
-
-        /* --- НОВЫЙ БЛОК CTA (CALL TO ACTION) --- */
         .cta-section { padding: 80px 20px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); text-align: center; }
         .cta-container { max-width: 600px; margin: 0 auto; }
         .cta-title { font-family: 'Merriweather', serif; font-size: 2rem; margin-bottom: 20px; }
@@ -91,18 +88,8 @@
         .cta-input:focus { border-color: var(--accent-color); }
         .cta-button { padding: 12px 30px; border-radius: 30px; border: none; background-color: var(--accent-color); color: white; font-weight: 700; cursor: pointer; transition: transform 0.2s, background-color 0.2s; }
         .cta-button:hover { transform: translateY(-2px); background-color: var(--accent-hover); }
-
         @media (max-width: 900px) { .rec-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { 
-            .nav-container { flex-direction: column; gap: 15px; } 
-            .article-title { font-size: 2.2rem; } 
-            .rec-grid { grid-template-columns: 1fr; } 
-            .footer-container { flex-direction: column; gap: 20px; text-align: center; } 
-            .cta-form { flex-direction: column; } 
-            .cta-button { width: 100%; }
-        }
-
-        /* FOOTER */
+        @media (max-width: 768px) { .nav-container { flex-direction: column; gap: 15px; } .article-title { font-size: 2.2rem; } .rec-grid { grid-template-columns: 1fr; } .footer-container { flex-direction: column; gap: 20px; text-align: center; } .cta-form { flex-direction: column; } .cta-button { width: 100%; } }
         footer { background-color: var(--footer-bg); padding: 40px 0 0 0; margin-top: 0; border-top: 1px solid var(--border-color); }
         .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 0 20px 40px 20px; }
         .footer-socials { display: flex; gap: 15px; }
@@ -131,8 +118,8 @@
         <button class="close-search" onclick="toggleSubscribe()"><i class="fa-solid fa-xmark"></i></button>
         <div class="search-container">
             <h2 style="font-family: 'Merriweather'; margin-bottom: 30px;" data-translate="join_news">Новости и обновления</h2>
-            <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!'); toggleSubscribe();">
-                <input type="email" class="subscribe-input" placeholder="Email" required>
+            <form class="subscribe-form" name="subscribe-modal" method="POST" data-netlify="true">
+                <input type="email" name="email" class="subscribe-input" placeholder="Email" required>
                 <button type="submit" class="subscribe-submit" data-translate="subscribe_btn">Подписаться</button>
             </form>
             <p class="search-hint" data-translate="spam_note">Никакого спама, только магия.</p>
@@ -143,9 +130,7 @@
         <div class="nav-container">
             <a href="index.html" class="logo-link">
                 <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/>
-                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/>
-                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
                 </svg>
                 <div class="logo-text">ERIC <span>NORTH</span></div>
             </a>
@@ -174,12 +159,31 @@
 
             <div class="share-section">
                 <div class="share-title"><span class="lang-ru">Поделиться статьей</span><span class="lang-en" hidden>Share this article</span></div>
+                
                 <div class="share-buttons">
-                    <a href="#" class="share-btn"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="share-btn"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="share-btn"><i class="fa-solid fa-link"></i></a>
+                    <a id="share-fb" href="#" target="_blank" class="share-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a id="share-x" href="#" target="_blank" class="share-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a id="share-copy" href="#" class="share-btn"><i class="fa-solid fa-link"></i></a>
                 </div>
             </div>
+
+            <div class="feedback-section">
+                <h3 class="feedback-title">
+                    <span class="lang-ru">Оставить отзыв автору</span><span class="lang-en" hidden>Send feedback to the author</span>
+                </h3>
+                
+                <form name="post-feedback" method="POST" data-netlify="true" class="feedback-form">
+                    <input type="hidden" name="post-title" id="hidden-post-title">
+                    <input type="text" name="name" class="feedback-input" placeholder="Ваше имя (Your Name)" required>
+                    <input type="email" name="email" class="feedback-input" placeholder="Email (не будет опубликован / private)" required>
+                    <textarea name="message" class="feedback-textarea" placeholder="Напишите ваши мысли о главе или статье..." required></textarea>
+                    
+                    <button type="submit" class="feedback-submit">
+                        <span class="lang-ru">Отправить</span><span class="lang-en" hidden>Send Feedback</span>
+                    </button>
+                </form>
+            </div>
+
         </article>
 
         <section class="recommended-section">
@@ -223,8 +227,8 @@
                     <span class="lang-ru">Подпишитесь на новости, чтобы первыми узнавать о выходе новых книг и получать эксклюзивные материалы.</span>
                     <span class="lang-en" hidden>Subscribe to news to be the first to know about new book releases and receive exclusive content.</span>
                 </p>
-                <form class="cta-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
-                    <input type="email" class="cta-input" placeholder="Email" required>
+                <form class="cta-form" name="subscribe-footer" method="POST" data-netlify="true">
+                    <input type="email" name="email" class="cta-input" placeholder="Email" required>
                     <button type="submit" class="cta-button" data-translate="subscribe_btn">Подписаться</button>
                 </form>
             </div>
@@ -261,11 +265,8 @@
         </div>
     </footer>
 
-    <script src="posts.js"></script>
-    <script src="books.js"></script>
-    <script src="projects.js"></script>
-    <script src="notes.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="cms.js"></script>
     <script src="search.js"></script>
 
     <script>
@@ -278,7 +279,7 @@
 
         function setLanguage(lang) {
             currentLang = lang;
-            localStorage.setItem('lang', lang);
+            localStorage.setItem('lang', lang); 
             document.querySelector('.lang-switch').textContent = lang === 'ru' ? 'EN' : 'RU';
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.getAttribute('data-translate');
@@ -303,7 +304,7 @@
             const icon = document.getElementById('theme-icon');
             const currentTheme = document.documentElement.getAttribute('data-theme');
             if(icon) icon.className = currentTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            loadPost(); // Загружаем пост
+            loadPost(); 
         });
 
         function toggleTheme() {
@@ -319,12 +320,14 @@
         function toggleSubscribe() { document.getElementById('subscribeModal').classList.toggle('active'); }
         document.addEventListener('keydown', function(event) { if (event.key === "Escape") { document.getElementById('searchModal').classList.remove('active'); document.getElementById('subscribeModal').classList.remove('active'); } });
 
-        // --- ЛОГИКА ЗАГРУЗКИ ПОСТА ---
+        // --- ЛОГИКА ЗАГРУЗКИ ПОСТА, ЗАГОЛОВКА И ШЕРИНГА ---
         function loadPost() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             if(typeof postsDB !== 'undefined') {
                 const post = postsDB[id] || postsDB['void'];
+                
+                // 1. Обновляем контент
                 const contentDiv = document.getElementById('post-content');
                 contentDiv.innerHTML = `
                     <header class="article-header">
@@ -343,7 +346,44 @@
                         <div class="lang-en" hidden>${post.body_en}</div>
                     </div>
                 `;
+                
+                // 2. Подставляем название в форму отзыва
+                const hiddenInput = document.getElementById('hidden-post-title');
+                if(hiddenInput) hiddenInput.value = currentLang === 'ru' ? post.title_ru : post.title_en;
+
+                // 3. Обновляем Title вкладки браузера
+                const postTitle = currentLang === 'ru' ? post.title_ru : post.title_en;
+                document.title = `${postTitle} | Eric North`;
+
+                // 4. Настраиваем кнопки "Поделиться"
+                setupShareButtons(postTitle);
+
                 setLanguage(localStorage.getItem('lang') || 'ru');
+            }
+        }
+
+        // --- ЛОГИКА КНОПОК ПОДЕЛИТЬСЯ ---
+        function setupShareButtons(title) {
+            const currentUrl = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(title);
+
+            // Facebook
+            const fbBtn = document.getElementById('share-fb');
+            if (fbBtn) fbBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+
+            // X (Twitter)
+            const xBtn = document.getElementById('share-x');
+            if (xBtn) xBtn.href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${text}`;
+
+            // Копирование ссылки
+            const copyBtn = document.getElementById('share-copy');
+            if (copyBtn) {
+                copyBtn.onclick = function(e) {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert(currentLang === 'ru' ? 'Ссылка скопирована!' : 'Link copied!');
+                    });
+                };
             }
         }
     </script>

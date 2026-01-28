@@ -1,585 +1,91 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Eric North</title>
-
-    <link rel="icon"
-        href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 L15 60 L50 95 L50 5 Z" fill="%23222222"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="%23ff500a"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>'>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 L15 60 L50 95 L50 5 Z" fill="%23222222"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="%23ff500a"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>'>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #222222;
-            --nav-bg: #ffffff;
-            --accent-color: #ff500a;
-            --accent-hover: #e04508;
-            --border-color: #eeeeee;
-            --secondary-text: #666666;
-            --modal-bg: rgba(255, 255, 255, 0.95);
-            --card-bg: #f9f9f9;
-            --footer-bg: #f5f5f5;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --nav-bg: #1a1a1a;
-            --accent-color: #ff6b35;
-            --accent-hover: #ff8c61;
-            --border-color: #333333;
-            --secondary-text: #aaaaaa;
-            --modal-bg: rgba(18, 18, 18, 0.95);
-            --card-bg: #1e1e1e;
-            --footer-bg: #1f1f1f;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Source Sans Pro', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--text-color);
-        }
-
-        header {
-            background-color: var(--nav-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 40px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-svg {
-            width: 45px;
-            height: 45px;
-            transition: transform 0.3s ease;
-        }
-
-        .logo-text {
-            font-family: 'Merriweather', serif;
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-
-        .logo-text span {
-            color: var(--accent-color);
-        }
-
-        .logo-link:hover .logo-svg {
-            transform: scale(1.05);
-        }
-
-        [data-theme="dark"] .logo-svg {
-            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
-        }
-
-        .main-menu {
-            display: flex;
-            gap: 30px;
-        }
-
-        .main-menu a {
-            font-weight: 600;
-            font-size: 1rem;
-            position: relative;
-        }
-
-        .main-menu a:hover,
-        .main-menu a.active {
-            color: var(--accent-color);
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-color);
-            font-size: 1.1rem;
-        }
-
-        .icon-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .btn-subscribe {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-subscribe:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        .lang-switch {
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        main {
-            flex: 1;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .blog-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .blog-title {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .blog-subtitle {
-            color: var(--secondary-text);
-            font-size: 1.1rem;
-        }
-
-        /* FEATURED POST */
-        .featured-post {
-            display: flex;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 60px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .featured-post:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-
-        .featured-image-wrapper {
-            flex: 1.2;
-            position: relative;
-            min-height: 350px;
-        }
-
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .featured-content {
-            flex: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .featured-label {
-            color: var(--accent-color);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .featured-label::before {
-            content: '';
-            display: block;
-            width: 30px;
-            height: 2px;
-            background: var(--accent-color);
-        }
-
-        .featured-title {
-            font-size: 2rem;
-            margin: 0 0 20px 0;
-            line-height: 1.2;
-        }
-
-        .featured-text {
-            font-size: 1.1rem;
-            color: var(--secondary-text);
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .filters-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--secondary-text);
-            padding: 8px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .blog-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent-color);
-        }
-
-        .blog-card.hidden {
-            display: none;
-        }
-
-        .card-image-wrapper {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .blog-card:hover .card-image {
-            transform: scale(1.05);
-        }
-
-        .card-content {
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-
-        .card-category {
-            color: var(--accent-color);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-        }
-
-        .card-date {
-            color: var(--secondary-text);
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            margin: 0 0 10px 0;
-            line-height: 1.3;
-            color: var(--text-color);
-        }
-
-        .card-excerpt {
-            font-size: 0.95rem;
-            color: var(--secondary-text);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .card-btn {
-            color: var(--text-color);
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.3s;
-            margin-top: auto;
-        }
-
-        .card-btn:hover {
-            color: var(--accent-color);
-        }
-
-        .card-btn i {
-            transition: transform 0.3s;
-        }
-
-        .card-btn:hover i {
-            transform: translateX(5px);
-        }
-
-        /* MODALS */
-        .search-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--modal-bg);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .search-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .close-search {
-            position: absolute;
-            top: 30px;
-            right: 40px;
-            font-size: 2rem;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-        }
-
-        .search-container {
-            width: 100%;
-            max-width: 800px;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        .search-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid var(--secondary-text);
-            font-family: 'Merriweather', serif;
-            font-size: 2rem;
-            color: var(--text-color);
-            padding: 10px 0;
-            outline: none;
-        }
-
-        .search-input::placeholder {
-            color: var(--secondary-text);
-            opacity: 0.5;
-            font-style: italic;
-        }
-
-        .search-hint {
-            margin-top: 15px;
-            color: var(--secondary-text);
-            font-size: 0.9rem;
-        }
-
-        .subscribe-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .subscribe-input {
-            padding: 15px;
-            font-size: 1.2rem;
-            border: 1px solid var(--secondary-text);
-            background: transparent;
-            color: var(--text-color);
-            border-radius: 4px;
-        }
-
-        .subscribe-submit {
-            padding: 15px;
-            font-size: 1.2rem;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .subscribe-submit:hover {
-            background: var(--accent-hover);
-        }
-
-        footer {
-            background-color: var(--footer-bg);
-            padding: 40px 0 0 0;
-            margin-top: auto;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0 20px 40px 20px;
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 15px;
-        }
-
-        .footer-socials a {
-            font-size: 1.2rem;
-            color: var(--secondary-text);
-            transition: color 0.3s;
-        }
-
-        .footer-socials a:hover {
-            color: var(--accent-color);
-        }
-
-        .copyright {
-            width: 100%;
-            background-color: var(--accent-color);
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 0;
-        }
-
-        .copyright p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #ffffff;
-        }
-
-        @media (max-width: 900px) {
-            .blog-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .featured-post {
-                flex-direction: column;
-            }
-
-            .featured-image-wrapper {
-                min-height: 250px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .footer-container {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-        }
+        /* ... СТИЛИ ТЕ ЖЕ (СОКРАЩЕНО ДЛЯ УДОБСТВА) ... */
+        :root { --bg-color: #ffffff; --text-color: #222222; --nav-bg: #ffffff; --accent-color: #ff500a; --accent-hover: #e04508; --border-color: #eeeeee; --secondary-text: #666666; --modal-bg: rgba(255, 255, 255, 0.95); --card-bg: #f9f9f9; --footer-bg: #f5f5f5; }
+        [data-theme="dark"] { --bg-color: #121212; --text-color: #e0e0e0; --nav-bg: #1a1a1a; --accent-color: #ff6b35; --accent-hover: #ff8c61; --border-color: #333333; --secondary-text: #aaaaaa; --modal-bg: rgba(18, 18, 18, 0.95); --card-bg: #1e1e1e; --footer-bg: #1f1f1f; }
+        [hidden] { display: none !important; }
+        * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: var(--text-color); }
+        header { background-color: var(--nav-bg); border-bottom: 1px solid var(--border-color); padding: 15px 40px; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo-link { display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 45px; height: 45px; transition: transform 0.3s ease; }
+        .logo-text { font-family: 'Merriweather', serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1; }
+        .logo-text span { color: var(--accent-color); }
+        .logo-link:hover .logo-svg { transform: scale(1.05); }
+        [data-theme="dark"] .logo-svg { filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3)); }
+        .main-menu { display: flex; gap: 30px; }
+        .main-menu a { font-weight: 600; font-size: 1rem; position: relative; }
+        .main-menu a:hover, .main-menu a.active { color: var(--accent-color); }
+        .actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-color); font-size: 1.1rem; }
+        .icon-btn:hover { color: var(--accent-color); }
+        .lang-switch { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+        main { flex: 1; padding: 40px 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .blog-header { text-align: center; margin-bottom: 50px; }
+        .blog-title { font-size: 3rem; margin-bottom: 10px; }
+        .blog-subtitle { color: var(--secondary-text); font-size: 1.1rem; }
+        .featured-post { display: flex; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; margin-bottom: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s; text-decoration: none; color: inherit; }
+        .featured-post:hover { transform: translateY(-5px); border-color: var(--accent-color); }
+        .featured-image-wrapper { flex: 1.2; position: relative; min-height: 350px; }
+        .featured-image { width: 100%; height: 100%; object-fit: cover; }
+        .featured-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .featured-label { color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .featured-label::before { content: ''; display: block; width: 30px; height: 2px; background: var(--accent-color); }
+        .featured-title { font-size: 2rem; margin: 0 0 20px 0; line-height: 1.2; }
+        .featured-text { font-size: 1.1rem; color: var(--secondary-text); margin-bottom: 30px; line-height: 1.6; }
+        .filters-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { background: transparent; border: 1px solid var(--border-color); color: var(--secondary-text); padding: 8px 24px; border-radius: 30px; cursor: pointer; font-family: 'Source Sans Pro', sans-serif; font-weight: 600; transition: all 0.3s ease; }
+        .filter-btn:hover, .filter-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .blog-card { background-color: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; color: inherit; }
+        .blog-card:hover { transform: translateY(-7px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--accent-color); }
+        .blog-card.hidden { display: none; }
+        .card-image-wrapper { height: 200px; overflow: hidden; position: relative; }
+        .card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .blog-card:hover .card-image { transform: scale(1.05); }
+        .card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 15px; }
+        .card-category { color: var(--accent-color); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        .card-date { color: var(--secondary-text); }
+        .card-title { font-size: 1.4rem; margin: 0 0 10px 0; line-height: 1.3; color: var(--text-color); }
+        .card-excerpt { font-size: 0.95rem; color: var(--secondary-text); line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        .card-btn { color: var(--text-color); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s; margin-top: auto; }
+        .card-btn:hover { color: var(--accent-color); }
+        .card-btn i { transition: transform 0.3s; }
+        .card-btn:hover i { transform: translateX(5px); }
+        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); z-index: 2000; display: flex; justify-content: center; align-items: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
+        .search-modal.active { opacity: 1; pointer-events: all; }
+        .close-search { position: absolute; top: 30px; right: 40px; font-size: 2rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
+        .search-container { width: 100%; max-width: 800px; padding: 0 20px; text-align: center; }
+        .search-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--secondary-text); font-family: 'Merriweather', serif; font-size: 2rem; color: var(--text-color); padding: 10px 0; outline: none; }
+        .search-input::placeholder { color: var(--secondary-text); opacity: 0.5; font-style: italic; }
+        .search-hint { margin-top: 15px; color: var(--secondary-text); font-size: 0.9rem; }
+        .subscribe-form { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
+        .subscribe-input { padding: 15px; font-size: 1.2rem; border: 1px solid var(--secondary-text); background: transparent; color: var(--text-color); border-radius: 4px; }
+        .subscribe-submit { padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
+        .subscribe-submit:hover { background: var(--accent-hover); }
+        footer { background-color: var(--footer-bg); padding: 40px 0 0 0; margin-top: auto; border-top: 1px solid var(--border-color); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 0 20px 40px 20px; }
+        .footer-socials { display: flex; gap: 15px; }
+        .footer-socials a { font-size: 1.2rem; color: var(--secondary-text); transition: color 0.3s; }
+        .footer-socials a:hover { color: var(--accent-color); }
+        .copyright { width: 100%; background-color: var(--accent-color); padding: 20px 0; text-align: center; margin-top: 0; }
+        .copyright p { margin: 0; font-size: 0.85rem; color: #ffffff; }
+        @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } .featured-post { flex-direction: column; } .featured-image-wrapper { min-height: 250px; } }
+        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .nav-container { flex-direction: column; gap: 15px; } .footer-container { flex-direction: column; gap: 20px; text-align: center; } }
     </style>
 
     <script>
@@ -587,14 +93,12 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 </head>
-
 <body>
 
     <div id="searchModal" class="search-modal">
         <button class="close-search" onclick="toggleSearch()"><i class="fa-solid fa-xmark"></i></button>
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Введите название книги или темы..."
-                autocomplete="off">
+            <input type="text" id="searchInput" class="search-input" placeholder="Введите название книги или темы..." autocomplete="off">
             <p class="search-hint" data-translate="search_hint">Нажмите Enter для поиска</p>
         </div>
     </div>
@@ -602,11 +106,9 @@
     <div id="subscribeModal" class="search-modal">
         <button class="close-search" onclick="toggleSubscribe()"><i class="fa-solid fa-xmark"></i></button>
         <div class="search-container">
-            <h2 style="font-family: 'Merriweather'; margin-bottom: 30px;" data-translate="join_news">Новости и
-                обновления</h2>
-            <form class="subscribe-form"
-                onsubmit="event.preventDefault(); alert('Спасибо за подписку!'); toggleSubscribe();">
-                <input type="email" class="subscribe-input" placeholder="Email" required>
+            <h2 style="font-family: 'Merriweather'; margin-bottom: 30px;" data-translate="join_news">Новости и обновления</h2>
+            <form class="subscribe-form" name="subscribe-modal" method="POST" data-netlify="true">
+                <input type="email" name="email" class="subscribe-input" placeholder="Email" required>
                 <button type="submit" class="subscribe-submit" data-translate="subscribe_btn">Подписаться</button>
             </form>
             <p class="search-hint" data-translate="spam_note">Никакого спама, только магия.</p>
@@ -617,9 +119,9 @@
         <div class="nav-container">
             <a href="index.html" class="logo-link">
                 <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222" />
-                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a" />
-                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round" />
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
                 </svg>
                 <div class="logo-text">ERIC <span>NORTH</span></div>
             </a>
@@ -630,13 +132,10 @@
                 <a href="notes.html" data-translate="notes">Заметки</a>
             </nav>
             <div class="actions">
-                <button class="icon-btn" onclick="toggleSearch()" title="Search"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <span class="lang-switch icon-btn" onclick="toggleLanguage()">EN</span>
-                <button class="icon-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"
-                        id="theme-icon"></i></button>
-                <button class="btn-subscribe" onclick="toggleSubscribe()"
-                    data-translate="subscribe">Подписаться</button>
+                <button class="icon-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
+                <button class="btn-subscribe" onclick="toggleSubscribe()" data-translate="subscribe">Подписаться</button>
             </div>
         </div>
     </header>
@@ -644,22 +143,17 @@
     <main>
         <div class="blog-header">
             <h1 class="blog-title"><span class="lang-ru">Блог</span><span class="lang-en" hidden>Blog</span></h1>
-            <p class="blog-subtitle"><span class="lang-ru">Мысли, новости и черновики ненаписанных книг</span><span
-                    class="lang-en" hidden>Thoughts, news, and drafts of unwritten books</span></p>
+            <p class="blog-subtitle"><span class="lang-ru">Мысли, новости и черновики ненаписанных книг</span><span class="lang-en" hidden>Thoughts, news, and drafts of unwritten books</span></p>
         </div>
 
         <div id="featured-container">
-        </div>
+            </div>
 
         <div class="filters-container">
-            <button class="filter-btn active" onclick="filterSelection('all')"><span class="lang-ru">Все</span><span
-                    class="lang-en" hidden>All</span></button>
-            <button class="filter-btn" onclick="filterSelection('stories')"><span class="lang-ru">Рассказы</span><span
-                    class="lang-en" hidden>Stories</span></button>
-            <button class="filter-btn" onclick="filterSelection('lore')"><span class="lang-ru">Лор</span><span
-                    class="lang-en" hidden>Lore</span></button>
-            <button class="filter-btn" onclick="filterSelection('news')"><span class="lang-ru">Новости</span><span
-                    class="lang-en" hidden>News</span></button>
+            <button class="filter-btn active" onclick="filterSelection('all')"><span class="lang-ru">Все</span><span class="lang-en" hidden>All</span></button>
+            <button class="filter-btn" onclick="filterSelection('stories')"><span class="lang-ru">Рассказы</span><span class="lang-en" hidden>Stories</span></button>
+            <button class="filter-btn" onclick="filterSelection('lore')"><span class="lang-ru">Лор</span><span class="lang-en" hidden>Lore</span></button>
+            <button class="filter-btn" onclick="filterSelection('news')"><span class="lang-ru">Новости</span><span class="lang-en" hidden>News</span></button>
         </div>
 
         <div class="blog-grid" id="blog-grid-container"></div>
@@ -669,17 +163,16 @@
     <footer>
         <div class="footer-container">
             <a href="index.html" class="logo-link">
-                <svg class="logo-svg" style="width: 40px; height: 40px;" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 100 100">
-                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222" />
-                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a" />
-                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round" />
+                <svg class="logo-svg" style="width: 40px; height: 40px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#222222"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#ff500a"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
                 </svg>
                 <div class="logo-text" style="font-size: 1.2rem;">ERIC <span>NORTH</span></div>
             </a>
             <nav class="main-menu">
                 <a href="index.html" data-translate="home">Главная</a>
-                <a href="blog.html" data-translate="blog">Блог</a>
+                <a href="blog.html" class="active" data-translate="blog">Блог</a>
                 <a href="books.html" data-translate="books">Книги</a>
                 <a href="notes.html" data-translate="notes">Заметки</a>
             </nav>
@@ -696,12 +189,8 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="cms.js"></script>
-    <script src="posts.js"></script>
-    <script src="books.js"></script>
-    <script src="projects.js"></script>
-    <script src="notes.js"></script>
-
     <script src="search.js"></script>
 
     <script>
@@ -734,18 +223,19 @@
 
         function toggleLanguage() { setLanguage(currentLang === 'ru' ? 'en' : 'ru'); }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // ЖДЕМ СОБЫТИЕ 'db-ready' ВМЕСТО DOMContentLoaded
+        document.addEventListener('db-ready', () => {
             const icon = document.getElementById('theme-icon');
             const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (icon) icon.className = currentTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-
+            if(icon) icon.className = currentTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            
             // --- ГЕНЕРАЦИЯ КАРТОЧЕК С ФИЛЬТРОМ СКРЫТЫХ ПОСТОВ ---
-
-            // 1. ГЕНЕРАЦИЯ FEATURED
-            if (typeof postsDB !== 'undefined') {
+            const grid = document.getElementById('blog-grid-container');
+            if(typeof postsDB !== 'undefined') {
+                // 1. ГЕНЕРАЦИЯ FEATURED
                 const featuredContainer = document.getElementById('featured-container');
                 const featuredPost = postsDB['featured'];
-
+                
                 if (featuredPost && featuredContainer) {
                     featuredContainer.innerHTML = `
                         <a href="posts.html?id=featured" class="featured-post">
@@ -773,16 +263,14 @@
                 }
 
                 // 2. ГЕНЕРАЦИЯ СЕТКИ
-                const grid = document.getElementById('blog-grid-container');
                 for (const [id, post] of Object.entries(postsDB)) {
-                    // !!! ПРОВЕРКА НА СКРЫТОСТЬ !!!
-                    if (post.hidden || id === 'featured') continue;
+                    if (post.hidden || id === 'featured') continue; 
 
                     const card = document.createElement('a');
                     card.href = `posts.html?id=${id}`;
                     card.className = 'blog-card';
                     card.setAttribute('data-category', post.category || 'all');
-
+                    
                     card.innerHTML = `
                         <div class="card-image-wrapper">
                             <img src="${post.image}" alt="" class="card-image">
@@ -826,7 +314,7 @@
 
         function toggleSearch() { document.getElementById('searchModal').classList.toggle('active'); if (document.getElementById('searchModal').classList.contains('active')) setTimeout(() => document.getElementById('searchInput').focus(), 100); }
         function toggleSubscribe() { document.getElementById('subscribeModal').classList.toggle('active'); }
-        document.addEventListener('keydown', function (event) { if (event.key === "Escape") { document.getElementById('searchModal').classList.remove('active'); document.getElementById('subscribeModal').classList.remove('active'); } });
+        document.addEventListener('keydown', function(event) { if (event.key === "Escape") { document.getElementById('searchModal').classList.remove('active'); document.getElementById('subscribeModal').classList.remove('active'); } });
 
         function filterSelection(category) {
             const cards = document.getElementsByClassName("blog-card");
@@ -847,5 +335,4 @@
         }
     </script>
 </body>
-
 </html>
